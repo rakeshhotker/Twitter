@@ -87,7 +87,7 @@ app.get('/gettweets/:username', async (req, res) => {
 	try {
 		const { username } = req.params;
 		const response = await db.query(
-			'select tweet from tweet_details where tweet_id in(select tweet_id from tweets where username=$1)',
+			'select tweet_id,tweet from tweet_details where tweet_id in(select tweet_id from tweets where username=$1)',
 			[username.toString()]
 		);
 		// console.log(response);
@@ -102,7 +102,46 @@ app.get('/gettweets/:username', async (req, res) => {
 	}
 });
 //route to add tweet
+app.post('/addtweet/:username', async (req, res) => {
+	try {
+		const { username } = req.params;
+		const { tweet_text } = req.body;
+		const addtweetintotweets = await db.query(
+			'insert into tweets(username) values($1) returning *',
+			[username.toString()]
+		);
+		const { tweet_id } = addtweetintotweets.rows[0];
+		console.log(tweet_id);
+		const addtweettext = await db.query(
+			'insert into tweet_details(tweet_id,tweet) values($1,$2) returning *',
+			[tweet_id, tweet_text.toString()]
+		);
+		res.status(200).json({
+			status: 'success',
+		});
+	} catch (error) {
+		console.error(error.message);
+	}
+});
 //route to delete a tweet
+app.delete('/deletetweet/:tweetid', async (req, res) => {
+	try {
+		const { tweetid } = req.params;
+		const deletefromtweets = await db.query(
+			'delete from tweets where tweet_id=$1',
+			[tweetid]
+		);
+		const deletetweettext = await db.query(
+			'delete from tweet_details where tweet_id=$1',
+			[tweetid]
+		);
+		res.status(200).json({
+			status: 'success',
+		});
+	} catch (error) {
+		console.error(error.message);
+	}
+});
 //route to get user details
 //profile-section
 app.get('/getuserdetails/:username', async (req, res) => {
