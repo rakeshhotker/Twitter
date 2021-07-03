@@ -28,8 +28,8 @@ app.get('/getfollowers/:username', async (req, res) => {
 //route to add followers
 app.post('/addfollower/:username', async (req, res) => {
 	try {
-		const { username } = req.params;
-		const { follower_name } = req.body;
+		const { username } = req.params; //user that is being followed
+		const { follower_name } = req.body; //user that is following the above user
 		const addfollower = await db.query(
 			'insert into followers(username,follower_username) values($1,$2) returning *',
 			[username.toString(), follower_name.toString()]
@@ -44,12 +44,31 @@ app.post('/addfollower/:username', async (req, res) => {
 		console.error(error.message);
 	}
 });
+//route to unfollow;
+app.post('/unfollow/:username', async (req, res) => {
+	try {
+		const { username } = req.params; //user that is being unfollowed
+		const { followingUsername } = req.body; //user that is unfollowing above user
+		const removeFollower = await db.query(
+			'delete from followers where username=$1 and follower_username=$2 returning *',
+			[username.toString(), followingUsername.toString()]
+		);
+		res.status(200).json({
+			status: 'success',
+			data: {
+				followers: removeFollower.rows,
+			},
+		});
+	} catch (error) {
+		console.error(error.message);
+	}
+});
 //route to get all people user follows
 app.get('/getfollowing/:username', async (req, res) => {
 	try {
 		const { username } = req.params;
 		const response = await db.query(
-			'select user_following_username from following where username=$1',
+			'select username from followers where follower_username=$1',
 			[username.toString()]
 		);
 		// console.log(response);
@@ -82,7 +101,10 @@ app.get('/gettweets/:username', async (req, res) => {
 		console.error(error.message);
 	}
 });
+//route to add tweet
+//route to delete a tweet
 //route to get user details
+//profile-section
 app.get('/getuserdetails/:username', async (req, res) => {
 	try {
 		const { username } = req.params;
