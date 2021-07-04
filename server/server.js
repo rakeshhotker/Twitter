@@ -87,7 +87,7 @@ app.get('/gettweets/:username', async (req, res) => {
 	try {
 		const { username } = req.params;
 		const response = await db.query(
-			'select tweet_id,tweet from tweet_details where tweet_id in(select tweet_id from tweets where username=$1)',
+			'select tweet_id,tweet from tweet_details where tweet_id in(select tweet_id from tweets where username=$1) order by tweeted_at desc',
 			[username.toString()]
 		);
 		// console.log(response);

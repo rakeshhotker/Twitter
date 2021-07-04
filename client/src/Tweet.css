@@ -1,0 +1,30 @@
+.tweet {
+	display: flex;
+	align-items: flex-start;
+	border-bottom: 1px solid var(--twitter-background);
+}
+.tweet__body {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px;
+}
+
+.tweet__headerDescription {
+	margin-bottom: 10px;
+	font-size: 15px;
+}
+
+.tweet__headerText > h3 {
+	font-size: 15px;
+	margin-bottom: 5px;
+}
+
+.tweet__deleteButton {
+	color: var(--twitter-color);
+}
+.tweet__deleteButton:hover {
+	color: red;
+	cursor: pointer;
+}
