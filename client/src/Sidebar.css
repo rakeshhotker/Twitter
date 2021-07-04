@@ -4,6 +4,12 @@
 	margin-left: 20px;
 	margin: bottom 20px;
 }
+.app_name {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	color: var(--twitter-color);
+}
 .sidebar {
 	border-right: 1px solid var(--twitter-background);
 	flex: 0.25;

@@ -7,7 +7,10 @@ function Sidebar({ username }) {
 	return (
 		<div className='sidebar'>
 			{/*Twitter icon*/}
-			<TwitterIcon className='sidebar__twitterIcon' />
+			<div className='app_name'>
+				<TwitterIcon className='sidebar__twitterIcon' />
+				<h1>My_Tweet</h1>
+			</div>
 			<SidebarOption active text='Home' />
 			<Users username={username} />
 			{/*Sidebar component*/}
