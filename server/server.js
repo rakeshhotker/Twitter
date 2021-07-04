@@ -111,7 +111,6 @@ app.post('/addtweet/:username', async (req, res) => {
 			[username.toString()]
 		);
 		const { tweet_id } = addtweetintotweets.rows[0];
-		console.log(tweet_id);
 		const addtweettext = await db.query(
 			'insert into tweet_details(tweet_id,tweet) values($1,$2) returning *',
 			[tweet_id, tweet_text.toString()]
@@ -137,6 +136,24 @@ app.delete('/deletetweet/:tweetid', async (req, res) => {
 		);
 		res.status(200).json({
 			status: 'success',
+		});
+	} catch (error) {
+		console.error(error.message);
+	}
+});
+//route to get users that current user doesn't follow;
+app.get('/getUserstoFollow/:username', async (req, res) => {
+	try {
+		const { username } = req.params;
+		const response = await db.query(
+			'select * from users where username not like $1 and username not in(select username from followers where follower_username=$1)',
+			[username.toString()]
+		);
+		res.status(200).json({
+			status: 'success',
+			data: {
+				users: response.rows,
+			},
 		});
 	} catch (error) {
 		console.error(error.message);
