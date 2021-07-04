@@ -9,7 +9,7 @@ function Sidebar({ username }) {
 			{/*Twitter icon*/}
 			<div className='app_name'>
 				<TwitterIcon className='sidebar__twitterIcon' />
-				<h1>My_Tweet</h1>
+				<h1>MyTweet</h1>
 			</div>
 			<SidebarOption active text='Home' />
 			<Users username={username} />
