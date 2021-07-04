@@ -1,6 +1,7 @@
 .connections {
 	display: flex;
 	flex-direction: column;
+	justify-content: space-evenly;
 }
 .connections {
 	border-right: 1px solid var(--twitter-background);

@@ -21,9 +21,11 @@ function Followers({ username }) {
 			{followers &&
 				followers.map((follower) => {
 					return (
-						<div className='follower'>
-							<div className='followername'>{follower.follower_username}</div>
-						</div>
+						<React.Fragment key={follower.follower_username}>
+							<div className='follower'>
+								<div className='followername'>{follower.follower_username}</div>
+							</div>
+						</React.Fragment>
 					);
 				})}
 		</div>

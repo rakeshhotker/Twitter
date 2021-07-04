@@ -17,16 +17,32 @@ function Users({ username }) {
 		};
 		fetchData();
 	});
+	const handleSubmit = (e) => async (user) => {
+		e.preventDefault();
+		try {
+			const response = await TweetSelector.post(`/addfollower/${user}`);
+			console.log(response);
+		} catch (error) {
+			console.error(error.message);
+		}
+	};
 	return (
 		<div className='allUsers'>
 			<h3>Follow Users</h3>
 			{users &&
 				users.map((user) => {
 					return (
-						<div className='user'>
-							<div className='username'>{user.username}</div>
-							<Button className='followUser'>follow</Button>
-						</div>
+						<React.Fragment key={user.user_id}>
+							<div className='user'>
+								<div className='username'>{user.username}</div>
+								<Button
+									className='followUser'
+									onClick={(e) => handleSubmit(user.username)}
+								>
+									follow
+								</Button>
+							</div>
+						</React.Fragment>
 					);
 				})}
 		</div>
